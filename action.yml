@@ -1,0 +1,40 @@
+name: Jupyter to Github Pages
+description: Publish all Jupyter notebooks to Github Pages
+inputs:
+  dependencies:
+    description: Python dependencies file.
+    required: true
+  home:
+    description: Markdown file to show at the home page
+    required: false
+    default: README.md
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+        cache: pip
+    
+    - name: Install dependencies
+      shell: bash
+      run: |
+        pip install -r ${{ inputs.dependencies }};
+        pip install mkdocs
+        pip install mkdocs-material
+
+    - name: Build docs.
+      shell: bash
+      run:
+        mkdir docs;
+        cp ${{inputs.home}} docs;
+        cp -r src/notebooks/* docs;
+        find docs -type 'f' -name '*.ipynb' | xargs jupyter nbconvert --to Markdown --no-input;
+        find docs -type 'f' -name '*.ipynb' | xargs rm;
+
+    - name: Publish
+      shell: bash
+      run:
+        mkdocs gh-deploy --force --clean
