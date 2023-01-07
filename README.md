@@ -1,6 +1,6 @@
 # jupyter-to-pages
 
-This action transforms all Jupyter notebooks in a repository into markdown files,
+This action transforms the latest run of each Jupyter notebook in a repository into markdown files,
 builds a static site with them and push it at the `gh-pages` branch. We can then use that
 branch to trigger publishing into the repository Github pages.
 
@@ -48,8 +48,13 @@ Go to `Settings > Pages` and instruct GIT to publish the contents of `gh-pages` 
 
 ![Configure Git Pages](./settings.png)
 
-## Note
+There is a full example in this [repository](https://github.com/dada-public/jupyter-pages-demo).
 
-The conversion from Jupyter notebooks format to Markdown is done using `nbconvert`. This tool is usually packaged within
-your Jupyter notebooks distribution, and matched the Jupyter format version. I.e., you need to record your Jupyter's installation
-in the dependencies file for this action to work, or provide a fallback.
+## Requirements
+
+- The conversion from Jupyter notebooks format to Markdown is done using `nbconvert`. This tool is usually packaged within
+  your Jupyter notebooks distribution, and matched the Jupyter format version. I.e., you need to record your Jupyter's installation
+  in the dependencies file for this action to work, or provide a fallback.
+
+- The action will build a site from your Jupyter notebooks on top of [Mkdocs](https://www.mkdocs.org/) and the [Mkdocs Material](https://squidfunk.github.io/mkdocs-material/) theme. Thus, you
+  need to configure them by providing a `mkdocs.yml` file.
