@@ -23,7 +23,7 @@ on:
 permissions:
   contents: write
 jobs:
-  trigger publication:
+  build-documentation:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
