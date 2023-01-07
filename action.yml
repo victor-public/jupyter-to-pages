@@ -1,40 +1,51 @@
-name: Jupyter to Github Pages
-description: Publish all Jupyter notebooks to Github Pages
+name: Convert Jupyter Notebooks to Github Pages
+description: Translate all Jupyter notebooks in the repository to Markdown and trigger publish
 inputs:
+  show-cells:
+    description: Whether or not to show the code in the cells
   dependencies:
-    description: Python dependencies file.
-    required: true
-  home:
-    description: Markdown file to show at the home page
-    required: false
-    default: README.md
+    description: Path to a file listing the requirements to run the notebooks.
+    default: requirements.txt
+  source:
+    description: Path to the folder that contains the Notebooks
 
 runs:
   using: "composite"
   steps:
-    - name: Setup Python
-      uses: actions/setup-python@v2
+    - name: Checkout
+      uses: actions/checkout@v3
       with:
-        python-version: 3.x
+        fetch-depth: 0
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
         cache: pip
-    
-    - name: Install dependencies
+
+    - name: Install project dependencies
+      run: pip install -r ${{ inputs.dependencies }}
       shell: bash
+
+    - name: Install mkdocs & material theme
       run: |
-        pip install -r ${{ inputs.dependencies }};
         pip install mkdocs
         pip install mkdocs-material
-
-    - name: Build docs.
       shell: bash
-      run:
-        mkdir docs;
-        cp ${{inputs.home}} docs;
-        cp -r src/notebooks/* docs;
-        find docs -type 'f' -name '*.ipynb' | xargs jupyter nbconvert --to Markdown --no-input;
-        find docs -type 'f' -name '*.ipynb' | xargs rm;
 
-    - name: Publish
+    - name: Jupyter to Markdown Conversion
+      run: |
+        if [[ "${{ inputs.show-cells }}" != "" ]];
+        then
+          find ${{ inputs.source }} -type 'f' -name '*.ipynb' -not -name "*-checkpoint.ipynb" | xargs jupyter nbconvert --to Markdown
+        else
+          find ${{ inputs.source }} -type 'f' -name '*.ipynb' -not -name "*-checkpoint.ipynb" | xargs jupyter nbconvert --to Markdown --no-input
+        fi;
+
+        find ${{ inputs.source }} -type 'f' -name "*.ipynb" -delete
       shell: bash
-      run:
-        mkdocs gh-deploy --force --clean
+
+    - name: Trigger publishing
+      run: |
+        mkdocs gh-deploy --clean --force
+      shell: bash
