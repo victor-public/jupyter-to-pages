@@ -1,4 +1,5 @@
-name: "Convert Jupyter Notebooks to Github Pages"
+name: Convert Jupyter Notebooks to Github Pages
+author: Víctor Santiago
 description: Translate all Jupyter notebooks in the repository to Markdown and trigger publish
 inputs:
   show-cells:
@@ -49,3 +50,7 @@ runs:
       run: |
         mkdocs gh-deploy --clean --force
       shell: bash
+
+branding:
+  icon: archive
+  color: purple
