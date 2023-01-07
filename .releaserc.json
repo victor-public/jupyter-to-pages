@@ -1,4 +1,4 @@
 {
-  "branches": [{ "name": "main" }],
+  "branches": [{ "name": "master" }],
   "ci": false
 }
