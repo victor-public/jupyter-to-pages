@@ -13,6 +13,7 @@
     "markdown",
     "documentation"
   ],
+  "private": true,
   "author": "Victor Santiago <vsantiago.public@protonmail.com>",
   "license": "MIT",
   "bugs": {
