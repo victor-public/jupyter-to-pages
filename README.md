@@ -58,3 +58,7 @@ There is a full example in this [repository](https://github.com/dada-public/jupy
 
 - The action will build a site from your Jupyter notebooks on top of [Mkdocs](https://www.mkdocs.org/) and the [Mkdocs Material](https://squidfunk.github.io/mkdocs-material/) theme. Thus, you
   need to configure them by providing a `mkdocs.yml` file.
+
+## Sponsor me
+
+<iframe src="https://github.com/sponsors/victor-public/card" title="Sponsor victor-public" height="225" width="600" style="border: 0;"></iframe>
