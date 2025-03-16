@@ -32,7 +32,7 @@ jobs:
           fetch-depth: 0
 
       - name: Publish Jupyter Notebooks as Github pages
-        uses: dada-public/jupyter-to-pages@v1
+        uses: victor-public/jupyter-to-pages@master
         with:
           show-cells: true
           source: src/notebooks
